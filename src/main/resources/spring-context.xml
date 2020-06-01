@@ -4,5 +4,12 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="taskService" class="ru.otus.service.TaskService">
+    </bean>
+
+    <bean id="testService" class="ru.otus.service.TestService">
+        <constructor-arg ref="taskService"/>
+        <property name="dataFilePath" value="/Users/a17709767/IdeaProjects/2020-05-otus-spring-aksenova/src/main/resources/questions.csv"/>
+    </bean>
 
 </beans>
