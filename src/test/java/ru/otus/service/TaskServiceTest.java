@@ -8,7 +8,7 @@ public class TaskServiceTest {
 
     @Test
     public void test(){
-        TaskService taskService = new TaskService();
+        TaskServiceImpl taskService = new TaskServiceImpl();
         String question = "Question?";
         String[] row = {question, "Answer", "Opt A", "Opt B", "Opt C", "Opt D"};
         Task task = taskService.createTask(row);

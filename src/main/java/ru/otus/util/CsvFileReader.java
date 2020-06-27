@@ -6,13 +6,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import ru.otus.domain.Task;
-import ru.otus.service.TaskService;
 
 public class CsvFileReader {
 
-    private String DELIMITER = ";";
-    private TaskService taskService;
+    private final String DELIMITER = ";";
 
     public List<String[]> readFromFile(String path) {
         List<String[]> rows = new ArrayList<>();
@@ -28,7 +25,4 @@ public class CsvFileReader {
         }
         return rows;
     }
-
-
-
 }

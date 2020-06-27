@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Task {
-    String question;
-    String answer;
-    List<String> options;
+    private String question;
+    private String answer;
+    private List<String> options;
 }
