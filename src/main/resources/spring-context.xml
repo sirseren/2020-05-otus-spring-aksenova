@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns="http://www.springframework.org/schema/beans"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd">
+        http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+
+
+    <bean id="csvFileReader" class="ru.otus.util.CsvFileReader">
+    </bean>
+    <bean id="taskService" class="ru.otus.service.TaskServiceImpl">
+    </bean>
+    <bean id="printService" class="ru.otus.service.PrintServiceImpl">
+    </bean>
+
+    <bean id="testService" class="ru.otus.service.TestServiceImpl">
+        <constructor-arg ref="taskService"/>
+        <constructor-arg ref="csvFileReader"/>
+        <constructor-arg name="testData" value="questions.csv"/>
+    </bean>
 
 
 </beans>
