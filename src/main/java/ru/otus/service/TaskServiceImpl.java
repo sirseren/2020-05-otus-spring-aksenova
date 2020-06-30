@@ -14,7 +14,7 @@ public class TaskServiceImpl implements TaskService {
 
     public Task createTask(String[] attributes){
         String question = attributes[0];
-        String answer = attributes[1];
+        String answer = attributes[1].trim();
         List<String> options = new ArrayList<>();
         for (int i = 2; i < 5; i++){
             options.add(attributes[i]);

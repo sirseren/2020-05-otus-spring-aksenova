@@ -27,7 +27,7 @@ public class TestServiceImpl implements TestService {
         this.taskService = taskService;
         this.csvFileReader = csvFileReader;
         this.ioService = ioService;
-        this.testData = new ClassPathResource(testData);;
+        this.testData = new ClassPathResource(testData);
     }
 
     public List<Task> getTasksFromCsv() {
@@ -49,6 +49,27 @@ public class TestServiceImpl implements TestService {
     public void run() {
         ioService.print(ASK_NAME_MSG);
         String name = ioService.read();
-        ioService.print(name + '?');
+        ioService.print(name + ", welcome!");
+
+        startTest();
+    }
+
+    private void startTest() {
+        List<Task> tasks = getTasksFromCsv();
+        int score = 0;
+        for (Task task : tasks){
+            ioService.print("\n" + task.getQuestionWithOptions());
+            String correctAnswer = task.getAnswer();
+            String userAnswer = ioService.read();
+            if(!correctAnswer.isBlank() && correctAnswer.equals(userAnswer))
+            {
+                ioService.print("Great!");
+                score++;
+            } else {
+                ioService.print("Wrong :(");
+            }
+        }
+
+        ioService.print("Score = " + score + " from " + tasks.size());
     }
 }
