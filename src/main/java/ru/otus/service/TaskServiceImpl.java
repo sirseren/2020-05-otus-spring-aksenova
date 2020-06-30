@@ -2,8 +2,10 @@ package ru.otus.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.stereotype.Service;
 import ru.otus.domain.Task;
 
+@Service
 public class TaskServiceImpl implements TaskService {
 
     public Task createTask(String row){

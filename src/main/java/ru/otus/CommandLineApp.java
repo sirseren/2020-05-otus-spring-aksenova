@@ -1,16 +1,18 @@
 package ru.otus;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ru.otus.service.PrintServiceImpl;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import ru.otus.service.TestServiceImpl;
 
-class CommandLineApp
-{
-    public static void main ( String []arguments) {
-
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/spring-context.xml");
+@Slf4j
+@SpringBootApplication
+class CommandLineApp {
+    public static void main ( String[] args){
+        ApplicationContext context = SpringApplication.run(CommandLineApp.class, args);
         TestServiceImpl testService = context.getBean(TestServiceImpl.class);
-        PrintServiceImpl printService = context.getBean(PrintServiceImpl.class);
-        printService.printAll(testService.getTasksFromCsv(), System.out);
+        testService.run();
     }
+
 }

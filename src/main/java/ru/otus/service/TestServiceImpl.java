@@ -6,20 +6,27 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
 import ru.otus.domain.Task;
 import ru.otus.util.CsvFileReader;
 
+@Service
 public class TestServiceImpl implements TestService {
+
+    private String ASK_NAME_MSG = "Hello, print your name";
 
     private final TaskServiceImpl taskService;
     private final CsvFileReader csvFileReader;
     private final Resource testData;
+    private final IOService ioService;
 
-    public TestServiceImpl(TaskServiceImpl taskService, CsvFileReader csvFileReader, String testData) {
+    public TestServiceImpl(TaskServiceImpl taskService, CsvFileReader csvFileReader, IOService ioService, @Value("${questions.filename}") String testData) {
         this.taskService = taskService;
         this.csvFileReader = csvFileReader;
+        this.ioService = ioService;
         this.testData = new ClassPathResource(testData);;
     }
 
@@ -38,4 +45,10 @@ public class TestServiceImpl implements TestService {
         return new ArrayList<>();
     }
 
+    @Override
+    public void run() {
+        ioService.print(ASK_NAME_MSG);
+        String name = ioService.read();
+        ioService.print(name + '?');
+    }
 }
