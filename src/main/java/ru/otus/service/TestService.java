@@ -7,5 +7,5 @@ import ru.otus.domain.Task;
 public interface TestService {
 
     List<Task> getTasksFromCsv() throws IOException;
-    void run();
+    void startTest();
 }

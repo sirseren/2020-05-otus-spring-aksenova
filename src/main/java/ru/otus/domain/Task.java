@@ -12,11 +12,11 @@ public class Task {
     private List<String> options;
 
     public String getQuestionWithOptions() {
-        String formedQuestion = question + "\n"; //stringbuffer
+        StringBuffer formedQuestion = new StringBuffer(question + "\n"); //stringbuffer
         int optNumber = 1;
         for (String opt : options){
-            formedQuestion = formedQuestion.concat(" " + optNumber++ + "." + opt + "\n");
+            formedQuestion = formedQuestion.append(" " + optNumber++ + "." + opt + "\n");
         }
-        return formedQuestion;
+        return formedQuestion.toString();
     }
 }
