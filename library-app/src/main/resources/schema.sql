@@ -1,5 +1,3 @@
-create schema PUBLIC;
-
 create table AUTHOR
 (
     ID BIGINT auto_increment,
