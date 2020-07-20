@@ -9,7 +9,7 @@ import ru.otus.service.TestService;
 @ShellComponent
 public class ShellApplication {
 
-    private String ASK_NAME_MSG = "Hello, print your name";
+    private static final String ASK_NAME_MSG = "Hello, print your name";
 
     private final TestService testService;
     private final IOService ioService;
