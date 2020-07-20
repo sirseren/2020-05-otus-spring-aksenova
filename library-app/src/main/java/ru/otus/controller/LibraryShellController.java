@@ -10,8 +10,6 @@ import ru.otus.service.IOService;
 @ShellComponent
 public class LibraryShellController {
 
-    private String WELCOME_MESSAGE = "Welcome to the Library App!";
-
     private final IOService ioService;
     private final BookService bookService;
 
@@ -20,13 +18,11 @@ public class LibraryShellController {
         this.bookService = bookService;
     }
 
-    private void welcome(String username) {
-        ioService.print(WELCOME_MESSAGE);
-    }
-
-    @ShellMethod(key = "delete-all", value = "Delete all books by IDs")
+    @ShellMethod(key = "delete", value = "Delete all books by IDs")
     public void deleteAll(@ShellOption(value = {"--id", "-id"}) List<String> id) {
+        ioService.print("Deleting records ...");
         bookService.delete(id);
+        ioService.print("Done!");
     }
 
 }

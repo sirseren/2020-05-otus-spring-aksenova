@@ -1,33 +1,33 @@
-create table AUTHOR
+create table PUBLIC.AUTHOR
 (
     ID BIGINT auto_increment,
     NAME VARCHAR(200) not null
 );
 
-create unique index AUTHOR_ID_UINDEX
-    on AUTHOR (ID);
+create unique index PUBLIC.AUTHOR_ID_UINDEX
+    on PUBLIC.AUTHOR (ID);
 
-alter table AUTHOR
+alter table PUBLIC.AUTHOR
     add constraint AUTHOR_PK
         primary key (ID);
 
-create table GENRE
+create table PUBLIC.GENRE
 (
     ID BIGINT auto_increment,
     NAME VARCHAR(100) not null
 );
 
-create unique index GENRE_ID_UINDEX
-    on GENRE (ID);
+create unique index PUBLIC.GENRE_ID_UINDEX
+    on PUBLIC.GENRE (ID);
 
-create unique index GENRE_NAME_UINDEX
-    on GENRE (NAME);
+create unique index PUBLIC.GENRE_NAME_UINDEX
+    on PUBLIC.GENRE (NAME);
 
-alter table GENRE
+alter table PUBLIC.GENRE
     add constraint GENRE_PK
         primary key (ID);
 
-create table BOOK
+create table PUBLIC.BOOK
 (
     ID BIGINT auto_increment,
     GENRE_ID BIGINT not null,
@@ -35,15 +35,15 @@ create table BOOK
     NAME VARCHAR(200),
     ISBN VARCHAR(30),
     constraint BOOK_AUTHOR_ID_FK
-        foreign key (AUTHOR_ID) references AUTHOR (ID),
+        foreign key (AUTHOR_ID) references PUBLIC.AUTHOR (ID),
     constraint BOOK_GENRE__FK
-        foreign key (GENRE_ID) references GENRE (ID)
+        foreign key (GENRE_ID) references PUBLIC.GENRE (ID)
 );
 
-create unique index BOOK_ID_UINDEX
-    on BOOK (ID);
+create unique index PUBLIC.BOOK_ID_UINDEX
+    on PUBLIC.BOOK (ID);
 
-alter table BOOK
+alter table PUBLIC.BOOK
     add constraint BOOK_PK
         primary key (ID);
 
