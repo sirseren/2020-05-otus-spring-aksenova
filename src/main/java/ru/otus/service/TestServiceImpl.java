@@ -25,7 +25,7 @@ public class TestServiceImpl implements TestService {
         this.testData = new ClassPathResource(testData);
     }
 
-    public List<Task> getTasksFromCsv() {
+    public List<Task> getTasksFromDataSource() {
         if (testData.exists() && testData.isReadable()) {
             try (BufferedReader reader = new BufferedReader(
                     new InputStreamReader(testData.getInputStream()))) {
@@ -41,7 +41,7 @@ public class TestServiceImpl implements TestService {
     }
 
     public void startTest() {
-        List<Task> tasks = getTasksFromCsv();
+        List<Task> tasks = getTasksFromDataSource();
         int score = 0;
         for (Task task : tasks){
             ioService.print("\n" + task.getQuestionWithOptions());

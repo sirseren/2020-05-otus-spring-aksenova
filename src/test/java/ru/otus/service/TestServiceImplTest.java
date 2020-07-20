@@ -16,7 +16,7 @@ class TestServiceImplTest {
 
     @Test
     void getTasksFromCsv() throws IOException {
-        List<Task> tasksFromCsv = testService.getTasksFromCsv();
+        List<Task> tasksFromCsv = testService.getTasksFromDataSource();
         assertThat(tasksFromCsv).isNotNull();
         assertEquals(tasksFromCsv.size(), 5);
     }
