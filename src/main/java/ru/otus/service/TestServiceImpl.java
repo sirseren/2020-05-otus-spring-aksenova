@@ -1,47 +1,25 @@
 package ru.otus.service;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import ru.otus.dao.CsvTaskDao;
 import ru.otus.domain.Task;
 
 @Service
 public class TestServiceImpl implements TestService {
 
-    private final TaskServiceImpl taskService;
-    private final Resource testData;
     private final IOService ioService;
+    @Value("${questions.filename}")
+    private String testData;
 
-    public TestServiceImpl(TaskServiceImpl taskService, IOService ioService, @Value("${questions.filename}") String testData) {
-        this.taskService = taskService;
+    public TestServiceImpl(IOService ioService) {
         this.ioService = ioService;
-        this.testData = new ClassPathResource(testData);
-    }
-
-    public List<Task> getTasksFromDataSource() {
-        if (testData.exists() && testData.isReadable()) {
-            try (BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(testData.getInputStream()))) {
-                return reader.lines()
-                             .skip(1)
-                             .map(x -> taskService.createTask(x))
-                             .collect(Collectors.toList());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return new ArrayList<>();
     }
 
     public void startTest() {
-        List<Task> tasks = getTasksFromDataSource();
+        CsvTaskDao csvTaskDao = new CsvTaskDao(testData);
+        List<Task> tasks = csvTaskDao.getTasksFromDataSource();
         int score = 0;
         for (Task task : tasks){
             ioService.print("\n" + task.getQuestionWithOptions());

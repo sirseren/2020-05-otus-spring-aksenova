@@ -3,6 +3,7 @@ package ru.otus.controller;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
+import ru.otus.exception.DataSourceReadingException;
 import ru.otus.service.IOService;
 import ru.otus.service.TestService;
 
@@ -20,7 +21,8 @@ public class ShellApplication {
     }
 
     @ShellMethod(key = "start", value = "Start test")
-    public void start(@ShellOption(defaultValue = ShellOption.NULL, value = {"--username", "-u"}) String username) {
+    public void start(@ShellOption(defaultValue = ShellOption.NULL, value = {"--username", "-u"}) String username)
+            throws DataSourceReadingException {
         greet(username);
         testService.startTest();
     }
