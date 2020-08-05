@@ -6,15 +6,16 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Repository;
 import ru.otus.domain.Task;
 
+@Repository
 public class CsvTaskDao implements TaskDao{
 
-    private final Resource testData;
-
-    public CsvTaskDao(String testData) {this.testData = new ClassPathResource(testData);}
+    @Value("classpath:questions.csv")
+    private Resource testData;
 
     public List<Task> getTasksFromDataSource() {
         if (testData.exists() && testData.isReadable()) {
@@ -22,7 +23,7 @@ public class CsvTaskDao implements TaskDao{
                     new InputStreamReader(testData.getInputStream()))) {
                 return reader.lines()
                              .skip(1)
-                             .map(x -> createTask(x))
+                             .map(this::createTask)
                              .collect(Collectors.toList());
             } catch (IOException e) {
                 e.printStackTrace();

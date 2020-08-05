@@ -1,7 +1,6 @@
 package ru.otus.service;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.otus.dao.CsvTaskDao;
 import ru.otus.domain.Task;
@@ -10,11 +9,11 @@ import ru.otus.domain.Task;
 public class TestServiceImpl implements TestService {
 
     private final IOService ioService;
-    private final String testData;
+    private final CsvTaskDao csvTaskDao;
 
-    public TestServiceImpl(IOService ioService, @Value("${questions.filename}") String testData) {
+    public TestServiceImpl(IOService ioService, CsvTaskDao csvTaskDao) {
         this.ioService = ioService;
-        this.testData = testData;
+        this.csvTaskDao = csvTaskDao;
     }
 
     public void startTest() {
@@ -40,7 +39,6 @@ public class TestServiceImpl implements TestService {
     }
 
     private List<Task> readTasksFromFile() {
-        CsvTaskDao csvTaskDao = new CsvTaskDao(testData);
         return csvTaskDao.getTasksFromDataSource();
     }
 }
