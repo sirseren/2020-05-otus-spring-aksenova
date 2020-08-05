@@ -1,41 +1,44 @@
 package ru.otus.service;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
+import ru.otus.dao.CsvTaskDao;
 import ru.otus.domain.Task;
-import ru.otus.util.CsvFileReader;
 
+@Service
 public class TestServiceImpl implements TestService {
 
-    private final TaskServiceImpl taskService;
-    private final CsvFileReader csvFileReader;
-    private final Resource testData;
+    private final IOService ioService;
+    private final CsvTaskDao csvTaskDao;
 
-    public TestServiceImpl(TaskServiceImpl taskService, CsvFileReader csvFileReader, String testData) {
-        this.taskService = taskService;
-        this.csvFileReader = csvFileReader;
-        this.testData = new ClassPathResource(testData);;
+    public TestServiceImpl(IOService ioService, CsvTaskDao csvTaskDao) {
+        this.ioService = ioService;
+        this.csvTaskDao = csvTaskDao;
     }
 
-    public List<Task> getTasksFromCsv() {
-        if (testData.exists() && testData.isReadable()) {
-            try (BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(testData.getInputStream()))) {
-                return reader.lines()
-                             .skip(1)
-                             .map(x -> taskService.createTask(x))
-                             .collect(Collectors.toList());
-            } catch (IOException e) {
-                e.printStackTrace();
+    public void startTest() {
+        List<Task> tasks = readTasksFromFile();
+        int score = proceedTesting(tasks);
+        ioService.print("Score = " + score + " from " + tasks.size());
+    }
+
+    private int proceedTesting(List<Task> tasks) {
+        int score = 0;
+        for (Task task : tasks) {
+            ioService.print("\n" + task.getQuestionWithOptions());
+            String correctAnswer = task.getAnswer();
+            String userAnswer = ioService.read();
+            if (!correctAnswer.isBlank() && correctAnswer.equals(userAnswer)) {
+                ioService.print("Great!");
+                score++;
+            } else {
+                ioService.print("Wrong :(");
             }
         }
-        return new ArrayList<>();
+        return score;
     }
 
+    private List<Task> readTasksFromFile() {
+        return csvTaskDao.getTasksFromDataSource();
+    }
 }
