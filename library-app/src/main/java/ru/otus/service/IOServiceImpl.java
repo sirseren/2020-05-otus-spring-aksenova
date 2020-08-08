@@ -1,8 +1,10 @@
 package ru.otus.service;
 
 import java.io.PrintStream;
+import java.util.List;
 import java.util.Scanner;
 import org.springframework.stereotype.Service;
+import ru.otus.entity.Book;
 
 @Service
 public class IOServiceImpl implements IOService{
@@ -23,5 +25,9 @@ public class IOServiceImpl implements IOService{
     @Override
     public void print(String text) {
         out.println(text);
+    }
+
+    public void print(List<Book> objects) {
+        objects.forEach(x -> print(x.toString()));
     }
 }

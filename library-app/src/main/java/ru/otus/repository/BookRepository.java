@@ -1,12 +1,12 @@
 package ru.otus.repository;
 
-import java.awt.print.Book;
+import ru.otus.entity.Book;
 import java.util.Collection;
 import java.util.List;
 
 public interface BookRepository {
 
-    List<Book> findAll();
+    List<Book> findAll(Collection<String> ids);
 
     Book findOne(String id);
 

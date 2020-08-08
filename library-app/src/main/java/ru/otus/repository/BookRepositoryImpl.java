@@ -1,12 +1,14 @@
 package ru.otus.repository;
 
-import java.awt.print.Book;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import ru.otus.entity.Book;
 
 @Repository
 public class BookRepositoryImpl implements BookRepository {
@@ -20,9 +22,15 @@ public class BookRepositoryImpl implements BookRepository {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    @Override
-    public List<Book> findAll() {
-        return null;
+    public List<Book> findAll(Collection<String> ids) {
+
+        Map namedParameters = Collections.singletonMap("idvalues", ids);
+        StringBuffer recordQueryString = new StringBuffer();
+        recordQueryString.append("select * from BOOK where ID in (:ids)");
+        BeanPropertyRowMapper rowMapper = BeanPropertyRowMapper.newInstance(Book.class);
+        namedParameterJdbcTemplate.query(recordQueryString.toString(), namedParameters, rowMapper);
+
+        return namedParameterJdbcTemplate.query("select * from BOOK where ID in (:id)", rowMapper);
     }
 
     @Override
