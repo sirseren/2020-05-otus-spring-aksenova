@@ -1,5 +1,6 @@
 package ru.otus.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -27,9 +28,9 @@ public class LibraryShellController {
 
     //todo без опций показывает все
     @ShellMethod(key = "list", value = "List all books by IDs")
-    public void list(@ShellOption(value = {"--id", "-id"}) List<String> id) {
+    public void list(@ShellOption(value = {"--id", "-id"}) String[] id) {
         ioService.print("Fetching records ...");
-        ioService.print(bookService.findAll(id));
+        ioService.print(bookService.findAll(Arrays.asList(id)));
         ioService.print("Done!");
     }
 

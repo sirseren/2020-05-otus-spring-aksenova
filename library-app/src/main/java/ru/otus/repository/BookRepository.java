@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BookRepository {
 
-    List<Book> findAll(Collection<String> ids);
+    List<Book> findAll(List<String> ids);
 
     Book findOne(String id);
 

@@ -3,9 +3,9 @@ package ru.otus.repository;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.otus.entity.Book;
@@ -22,16 +22,13 @@ public class BookRepositoryImpl implements BookRepository {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    public List<Book> findAll(Collection<String> ids) {
-
-        Map namedParameters = Collections.singletonMap("idvalues", ids);
-        StringBuffer recordQueryString = new StringBuffer();
-        recordQueryString.append("select * from BOOK where ID in (:ids)");
-        BeanPropertyRowMapper rowMapper = BeanPropertyRowMapper.newInstance(Book.class);
-        namedParameterJdbcTemplate.query(recordQueryString.toString(), namedParameters, rowMapper);
-
-        return namedParameterJdbcTemplate.query("select * from BOOK where ID in (:id)", rowMapper);
+    public List<Book> findAll(List<String> ids) {
+        String SQL = "select * from BOOK where ID in (:ids)";
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("ids", ids);
+        return namedParameterJdbcTemplate.query(SQL, parameterSource, new BeanPropertyRowMapper<>(Book.class));
     }
+
 
     @Override
     public Book findOne(String id) {
